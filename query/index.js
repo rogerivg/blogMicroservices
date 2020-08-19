@@ -31,18 +31,21 @@ const handleEvent = (type,data)=>{
 }
 
 app.get('/posts', (req, res) => {
+  console.log("entro");
   res.send(posts);
 });
 
 app.post('/events', (req, res) => {
+  console.log("entro");
   const { type, data } = req.body;
   handleEvent(type,data);
   res.send({});
 });
 
 app.listen(4002, async() => {
+  console.log("v.0.1");
   console.log('Listening on 4002');
-  const res = await axios.get('http://localhost:4005/events');
+  const res = await axios.get('http://event-bus-srv:4005/events');
   for (let event of res.data) {
     console.log('Processing event :',event.type);
     handleEvent(event.type, event.data);

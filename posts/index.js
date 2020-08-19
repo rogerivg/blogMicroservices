@@ -11,10 +11,12 @@ app.use(cors());
 const posts = {};
 
 app.get('/posts', (req, res) => {
+  console.log("entro");
   res.send(posts);
 });
 
-app.post('/posts', async (req, res) => {
+app.post('/posts/create', async (req, res) => {
+  console.log("entro");
   const id = randomBytes(4).toString('hex');
   const { title } = req.body;
 
@@ -23,7 +25,7 @@ app.post('/posts', async (req, res) => {
     title
   };
 
-  await axios.post('http://localhost:4005/events', {
+  await axios.post('http://event-bus-srv:4005/events', {
     type: 'PostCreated',
     data: {
       id,
@@ -35,12 +37,13 @@ app.post('/posts', async (req, res) => {
 });
 
 app.post('/events', (req, res) => {
+  console.log("entro");
   console.log('Received Event', req.body.type);
 
   res.send({});
 });
 
 app.listen(4000, () => {
-  console.log('v0.3');
+  console.log('v0.1');
   console.log('Listening on 4000');
 });
